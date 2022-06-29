@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import NavBar from '../components/NavBar'
-
+import Slider from '../components/Slider'
 export default function Home() {
   return (
     <div>
@@ -10,6 +10,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
+      <Slider />
     </div>
   )
 }
