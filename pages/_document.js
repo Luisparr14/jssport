@@ -7,7 +7,7 @@ export default function Document() {
       <Head>
       <Script src="node_modules/flowbite/dist/flowbite.js" />
       </Head>
-      <body>
+      <body className='bg-imgbg bg-no-repeat bg-cover'>
         <Main />
         <NextScript />
       </body>

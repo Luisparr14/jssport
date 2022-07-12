@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
-import { useRef } from "react";
 
 export default function Slider() {
 
@@ -29,15 +28,23 @@ export default function Slider() {
 
 
   return (
-    <main className="flex flex-col flex-auto justify-center h-[calc(100vh-65px)] ">
+    <main className="flex flex-col flex-auto justify-center h-[calc(100vh-88px)] md:h-[calc(100vh-56px)]">
       <Carousel slide={false}
         leftControl={letfArrow()}
         rightControl={rightArrow()}
       >
-        <img src="/images/logo.png" alt="logo" />
-        <img src="/images/bg.avif" alt="logo" />
-        <img src="/images/logo.png" alt="logo" />
-        <img src="/images/logo.png" alt="logo" />
+        <div >
+          <Image className="px-50" src="/images/logo.png" alt="logo"  layout="responsive" width={400} height={200} objectFit="contain" />
+        </div>
+        <div>
+          <Image className="px-50 rounded-lg" src="/images/bg.avif" alt="logo"  layout="responsive" width={400} height={200} objectFit="contain" />
+        </div>
+        <div >
+          <Image className="px-50" src="/images/logo.png" alt="logo"  layout="responsive" width={400} height={200} objectFit="contain" />
+        </div>
+        <div >
+          <Image className="px-50" src="/images/logo.png" alt="logo"  layout="responsive" width={400} height={200} objectFit="contain" />
+        </div>
       </Carousel>
     </main>
   )
