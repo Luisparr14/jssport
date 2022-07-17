@@ -8,6 +8,7 @@ const HOST = process.env.DB_HOST;
 const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
   host: HOST,
   dialect: 'mysql',
+  dialectModule: require('mysql2'),
   logging: false,
 })
 
