@@ -1,8 +1,18 @@
 import Head from "next/head"
+import { useEffect, useState } from "react";
 import CardEntrenadores from "../../components/CardEntrenadores"
 import NavBar from "../../components/NavBar"
 
 export default function Entrenadores() {
+  const [isSessionActive, setIsSessionActive] = useState(undefined);
+  useEffect(() => {
+    const session = localStorage.getItem("session");
+    if (session) {
+      setIsSessionActive(true);
+    } else {
+      setIsSessionActive(false);
+    }
+  }, [isSessionActive]);
   let entrenadores = [
     {
       nombre: "Juan",
@@ -31,7 +41,10 @@ export default function Entrenadores() {
         <title>Entrenadores</title>
         <meta name="description" content="Servicios" />
       </Head>
-      <NavBar />
+      <NavBar
+        session={isSessionActive}
+        setSession={setIsSessionActive}
+      />
       <main className="sm:h-[calc(100vh-88px)] md:h-[calc(100vh-56px)] flex gap-10 flex-row flex-wrap flex-auto justify-center items-center p-10 overflow-auto">
         {entrenadores.map(entrenador => (
           <CardEntrenadores key={entrenador.nombre} nombre={entrenador.nombre} imagen={entrenador.imagen} descripcion={entrenador.descripcion} />

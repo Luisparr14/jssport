@@ -28,7 +28,7 @@ export default function Slider() {
 
 
   return (
-    <main className="flex flex-col flex-auto justify-center h-[calc(100vh-88px)] md:h-[calc(100vh-56px)]">
+    <main className="flex flex-col flex-auto justify-center h-[calc(100vh-88px)] md:h-[calc(100vh-56px)] slider">
       <Carousel slide={false}
         leftControl={letfArrow()}
         rightControl={rightArrow()}
