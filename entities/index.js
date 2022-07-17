@@ -96,7 +96,8 @@ Pago.belongsToMany(Factura, { through: DetalleFactura });
 ;(async () => {
   await sequelize.sync({
     force: false,
-  })  
+    alter: true,
+  })
   console.log('Sincronizacion, terminada')
 })();
 

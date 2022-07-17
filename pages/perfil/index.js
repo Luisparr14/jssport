@@ -197,7 +197,7 @@ export default function Perfil({ productos }) {
             <section className="w-[90%] mx-auto rounded-3xl p-5 max-w-xs my-3 sm:my-px shadow-sm bg-gray-700">
               <h2 className="my-4 text-white font-bold text-center">Tu informacion personal</h2>
               <div className="flex flex-col justify-center">
-                <p className="text-white my-3 font-bold">Nombre usuario: {userInfo?.nombre_usuario}</p>
+                <p className="text-white my-3 font-bold">Nombre usuario: {userInfo?.nombreusuario}</p>
                 <p className="text-white my-3 font-bold">Nombre: {userInfo?.persona?.nombre} {userInfo?.persona?.primer_apellido}</p>
                 <p className="text-white my-3 font-bold">Celular: {userInfo?.persona?.celular}</p>
               </div>

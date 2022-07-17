@@ -22,7 +22,6 @@ export default function NavBar({ session, setSession }) {
   };
 
   const active = (path) => {
-    console.log(router.pathname === path ? "font-semibold" : "");
     return router.pathname === path ? "font-semibold text-black" : "";
   }
 

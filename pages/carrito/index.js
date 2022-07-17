@@ -27,8 +27,9 @@ export default function Carrito() {
       setUserInfo(JSON.parse(session));
     } else {
       setIsSessionActive(false);
+      router.push("/perfil");
     }
-  }, [isSessionActive]);
+  }, [isSessionActive, router]);
 
   if (isSessionActive == undefined) {
     return (
