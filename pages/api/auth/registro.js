@@ -1,4 +1,5 @@
-import { Usuario, Persona, sequelize } from "../../../entities"
+import sequelize from "../../../config/database";
+import { Usuario, Persona } from "../../../entities"
 import { generarHash } from "../../../lib/bcrypt";
 export default async function registro(req, res) {
   const t = await sequelize.transaction();

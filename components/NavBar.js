@@ -3,6 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 export default function NavBar({ session, setSession }) {
   const menuRef = useRef(null);
@@ -36,9 +40,22 @@ export default function NavBar({ session, setSession }) {
   )
 
   const logout = () => {
-    localStorage.removeItem("session");
-    setSession(false);
-  }
+    MySwal.fire({
+      title: "¿Estás seguro de cerrar sesión?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, cerrar sesión",
+      cancelButtonText: "No, cancelar"
+    }).then((result) => {
+      if (result.value) {
+        localStorage.removeItem("session");
+        setSession(false);
+        router.push("/perfil");
+      }
+    })
+  }  
 
   return (
     <nav className="bg-white shadow-lg h-[88px] md:h-[56px]">

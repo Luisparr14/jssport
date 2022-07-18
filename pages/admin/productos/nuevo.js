@@ -5,10 +5,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AdminSide from "../../../components/admin/AdminSideBar";
 import FormAdminPanel from "../../../components/admin/FormAdminPanel";
-import CustomAlert from "../../../components/CustomAlert";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+
+const MySwal = withReactContent(Swal)
 
 const initialState = {
-  id: "",
+  idproducto: "",
   nombre: "",
   precio: "",
 }
@@ -17,10 +21,6 @@ export default function AgregarProducto() {
   const [isAdmin, setIsAdmin] = useState(undefined);
   const [infoProducto, setInfoProducto] = useState(initialState);
 
-  const [alert, setAlert] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("failure");
 
   const router = useRouter();
   useEffect(() => {
@@ -33,15 +33,6 @@ export default function AgregarProducto() {
     }
   }, [router]);
 
-
-  const resetAlert = () => {
-    setTimeout(() => {
-      setAlert(false);
-      setAlertTitle("");
-      setAlertMessage("");
-      setAlertType("failure");                
-    }, 3000);
-  }
 
   const handleChange = e => {
     setInfoProducto({
@@ -57,28 +48,37 @@ export default function AgregarProducto() {
       ...infoProducto,
       admin
     }
-    
+
     try {
       const response = await axios.post("/api/productos/agregar-nuevo", datos);
       const { data } = response;
       if (data.ok) {
-        setAlertTitle("Registro");
-        setAlertMessage(data.message);
-        setAlertType("success");
-        setAlert(true);
-        resetAlert();
-        setTimeout(() => {
-          router.push("/admin/productos");
-        }, 3000);
+        MySwal.fire({
+          title: 'Producto agregado',
+          text: `El producto ${data.data.nombre} ha sido agregado con éxito`,
+          icon: 'success',
+          confirmButtonText: 'Volver a la lista',
+          showCancelButton: true,
+          cancelButtonText: 'Agregar otro producto',
+          cancelButtonColor: '#d33',
+          confirmButtonColor: '#3085d6',
+        }).then(async (result) => {
+          if (result.value) {
+            router.push("/admin/productos");
+          }else{
+            setInfoProducto(initialState);
+          }
+        })
       }
     } catch (error) {
       const { response } = error;
       const { data } = response;
-      setAlertTitle("Error");
-      setAlertMessage(data.message);
-      setAlertType("failure");
-      setAlert(true);
-      resetAlert();      
+      MySwal.fire({
+        title: 'Error al agregar producto',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'Entendido'
+      })
     }
   }
 
@@ -94,7 +94,7 @@ export default function AgregarProducto() {
 
   const campos = [
     {
-      name: "id",
+      name: "idproducto",
       label: "ID",
       type: "text",
       value: infoProducto.idproducto,
@@ -123,18 +123,11 @@ export default function AgregarProducto() {
         <meta name="description" content="Registro" />
       </Head>
       <main className="relative h-[calc(100vh)] flex flex-col justify-center overflow-auto py-4">
-      <AdminSide
-        isAdmin={isAdmin}
-        setIsAdmin={setIsAdmin}
-        router={router}
-      />
-      {alert && (
-        <CustomAlert
-          titulo={alertTitle}
-          mensaje={alertMessage}
-          tipo={alertType}
+        <AdminSide
+          isAdmin={isAdmin}
+          setIsAdmin={setIsAdmin}
+          router={router}
         />
-      )}
         <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
           <FormAdminPanel
             formTitle="Agregar producto"

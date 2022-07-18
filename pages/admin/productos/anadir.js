@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AdminSide from "../../../components/admin/AdminSideBar";
 import FormAdminPanel from "../../../components/admin/FormAdminPanel";
-import CustomAlert from "../../../components/CustomAlert";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 const initialState = {
-  id: "",
+  idproducto: "",
   cantidad: "",
 }
 
@@ -32,16 +35,6 @@ export default function AñadirProducto() {
     }
   }, [router]);
 
-
-  const resetAlert = () => {
-    setTimeout(() => {
-      setAlert(false);
-      setAlertTitle("");
-      setAlertMessage("");
-      setAlertType("failure");
-    }, 3000);
-  }
-
   const handleChange = e => {
     setInfoProducto({
       ...infoProducto,
@@ -56,29 +49,36 @@ export default function AñadirProducto() {
       ...infoProducto,
       admin
     }
-
     try {
-      const { id, cantidad } = infoProducto;
-      const response = await axios.post(`/api/productos/sumar-existencia/${id}`, { cantidad });
+      const { idproducto, cantidad } = infoProducto;
+      const response = await axios.post(`/api/productos/sumar-existencia/${idproducto}`, { cantidad });
       const { data } = response;
       if (data.ok) {
-        setAlertTitle("Registro");
-        setAlertMessage(data.message);
-        setAlertType("success");
-        setAlert(true);
-        resetAlert();
-        setTimeout(() => {
-          router.push("/admin/productos");
-        }, 3000);
+        MySwal.fire({
+          title: 'Existencia actualizada',
+          text: `La cantidad del producto ${data.data.nombre} ha sido actualizada con éxito`,
+          icon: 'success',
+          showCancelButton: true,
+          confirmButtonText: 'Volver a la lista',
+          cancelButtonText: 'Añadir más cantidad a producto',
+        }).then(async (result) => {
+          if (result.value) {
+            router.push("/admin/productos");
+          } else {
+            setInfoProducto(initialState);
+          }
+        })
       }
     } catch (error) {
+      console.log(error);
       const { response } = error;
       const { data } = response;
-      setAlertTitle("Error");
-      setAlertMessage(data.message);
-      setAlertType("failure");
-      setAlert(true);
-      resetAlert();
+      MySwal.fire({
+          title: 'Error',
+          text: data.message,
+          icon: 'error',
+          confirmButtonText: 'Entendido'
+      })      
     }
   }
 
@@ -94,7 +94,7 @@ export default function AñadirProducto() {
 
   const campos = [
     {
-      name: "id",
+      name: "idproducto",
       label: "ID a sumar cantidad",
       type: "text",
       value: infoProducto.idproducto,
@@ -121,13 +121,6 @@ export default function AñadirProducto() {
           setIsAdmin={setIsAdmin}
           router={router}
         />
-        {alert && (
-          <CustomAlert
-            titulo={alertTitle}
-            mensaje={alertMessage}
-            tipo={alertType}
-          />
-        )}
         <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
           <FormAdminPanel
             formTitle="Sumar cantidad"

@@ -16,7 +16,10 @@ const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
   sequelize.authenticate()
     .then(() => {
       console.log('La conexion a la base de datos se ha realizado correctamente')
-    })
+    }).catch(err => {
+      console.log('Error al conectar a la base de datos: ', err)
+    }
+  )
 })()
 
-export default sequelize
+export default sequelize;

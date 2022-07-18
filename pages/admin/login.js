@@ -73,7 +73,7 @@ export default function AdminLogin() {
         setTimeout(() => {
           setIsAdmin(true);
           router.push("/admin/productos");
-        }, 3000);
+        },200);
       }
     } catch (error) {
       console.log(error);

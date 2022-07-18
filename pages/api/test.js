@@ -13,12 +13,20 @@ export default async function test(req, res) {
       },
       {
         model: Usuario,
-        attributes: ["nombreusuario"]      
+        attributes: ["nombreusuario"]
       }
     ]
   })
+
+  const usuarios = await Usuario.findAll({
+    include: [{
+      model: Persona,
+      attributes: ['nombre', 'celular', 'correo']
+    }]
+  })
+
   return res.json({
     message: 'Test',
-    pagos
+    usuarios,
   })
 }

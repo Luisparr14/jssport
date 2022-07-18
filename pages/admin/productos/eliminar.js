@@ -4,26 +4,15 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AdminSide from "../../../components/admin/AdminSideBar";
 import InfoTablaAdmin from "../../../components/admin/InfoTablaAdmin";
-import ItemsAdminPanel from "../../../components/admin/itemsAdminPanel";
-import CustomAlert from "../../../components/CustomAlert";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 export default function EliminarProductos({ productos }) {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(undefined);
 
-  const [alert, setAlert] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("failure");
-
-  const resetAlert = () => {
-    setTimeout(() => {
-      setAlert(false);
-      setAlertTitle("");
-      setAlertMessage("");
-      setAlertType("failure");
-    }, 3000);
-  }
 
   useEffect(() => {
     const session = localStorage.getItem("admin");
@@ -74,40 +63,46 @@ export default function EliminarProductos({ productos }) {
 
   const handleEliminar = async (producto) => {
     try {
-      const { idproducto } = producto;
-      const url = `/api/productos/eliminar/${idproducto}`;
-      const response = await axios.delete(url);
-      const { data } = response;
-      if (data.ok) {
-        setAlert(true);
-        setAlertTitle("Producto eliminado");
-        setAlertMessage("El producto ha sido eliminado correctamente");
-        setAlertType("success");
-        resetAlert();
-        setTimeout(() => {
-          router.push("/admin/productos");
-        }, 200);
-      }
+      MySwal.fire({
+        title: '¿Estas seguro?',
+        text: "No podras revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Eliminar!',
+        cancelButtonText: 'Cancelar'
+      }).then(async (result) => {
+        if (result.value) {
+          const { idproducto } = producto;
+          const url = `/api/productos/eliminar/${idproducto}`;
+          const response = await axios.delete(url);
+          const { data } = response;
+          if (data.ok) {
+            MySwal.fire({
+              title: 'Eliminado!',
+              text: data.message,
+              icon: 'success',
+              confirmButtonText: 'Entendido'
+            }).then(() => {
+              router.push("/admin/productos");
+            })
+          }
+        }
+      })
     } catch (error) {
       const { response } = error;
       const { data } = response;
-      setAlertTitle("Error");
-      setAlertMessage(data.message);
-      setAlertType("failure");
-      setAlert(true);
-      resetAlert();
+      MySwal.fire({
+        title: 'Error',
+        text: data.message,
+        icon: 'error'
+      })
     }
   }
 
   return (
     <main className="pt-14 h-[calc(100vh)] flex flex-col overflow-y-auto">
-      {alert && (
-        <CustomAlert
-          titulo={alertTitle}
-          mensaje={alertMessage}
-          tipo={alertType}
-        />
-      )}
       <AdminSide
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}

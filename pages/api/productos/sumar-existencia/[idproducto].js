@@ -3,7 +3,7 @@ import { Producto } from "../../../../entities"
 export default async function sumar(req, res) {
   if (req.method === 'POST') {
     try {
-      const { id } = req.query
+      const { idproducto } = req.query
       const { cantidad } = req.body      
       if (!cantidad) {
         return res.status(400).json({
@@ -19,7 +19,7 @@ export default async function sumar(req, res) {
         })
       }
 
-      const findProducto = await Producto.findByPk(id)
+      const findProducto = await Producto.findByPk(idproducto)
 
       if (!findProducto) {
         return res.status(400).json({
@@ -32,19 +32,22 @@ export default async function sumar(req, res) {
         cantidad: parseInt(findProducto.cantidad) + parseInt(cantidad)
       }, {
         where: {
-          idproducto: id
+          idproducto
         }
       })
 
+      const producto = await Producto.findByPk(idproducto)
+
       return res.status(200).json({
         ok: true,
-        message: 'Producto actualizado',        
+        message: 'Producto actualizado',
+        data: producto
       })
     } catch (error) {
       console.log(error)
       return res.status(500).json({
         ok: false,
-        message: 'Error del servidor'
+        message: 'Error del servidor',
       })
     }
   }

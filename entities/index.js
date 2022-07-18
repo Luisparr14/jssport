@@ -15,8 +15,8 @@ import Admin from "./Admin";
 Planes.belongsToMany(Rutinas, { through: PlanRutina });
 Rutinas.belongsToMany(Planes, { through: PlanRutina });
 
-Rutinas.belongsToMany(Entrenadores, {through: Dicta})
-Entrenadores.belongsToMany(Rutinas, {through: Dicta})
+Rutinas.belongsToMany(Entrenadores, { through: Dicta })
+Entrenadores.belongsToMany(Rutinas, { through: Dicta })
 
 Entrenadores.belongsTo(Persona, { foreignKey: "idpersona" });
 
@@ -73,7 +73,7 @@ Usuario.belongsTo(Pago, {
 })
 
 //Relacion factura y productos
-Producto.hasMany(Factura,{
+Producto.hasMany(Factura, {
   foreignKey: "idproducto",
   as: "ProductosFactura",
   onDelete: "CASCADE",
@@ -93,12 +93,31 @@ Factura.belongsTo(Producto, {
 Factura.belongsToMany(Pago, { through: DetalleFactura });
 Pago.belongsToMany(Factura, { through: DetalleFactura });
 
-;(async () => {
-  await sequelize.sync({
-    force: false,
-    alter: true,
-  })
-  console.log('Sincronizacion, terminada')
+; (async () => {
+  try {
+    await sequelize.sync({
+      force: false,
+      // alter: true,
+    })
+    const admin = await Admin.findOne({
+      where: {
+        correo: "andrea@andrea.com"
+      }
+    })
+
+    if (!admin) {
+      await Admin.create({
+        correo: "andrea@andrea.com",
+        contrasena: "123456"
+      })
+    }
+    console.log("Sincronizado");
+  } catch (error) {
+    console.log({
+      "error": "Error menor con mock iniciales",
+      "sincronizado": "si... pero con error",
+    });
+  }
 })();
 
 export {
@@ -113,6 +132,5 @@ export {
   Factura,
   DetalleFactura,
   Pago,
-  Admin,
-  sequelize
+  Admin
 };

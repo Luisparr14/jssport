@@ -5,20 +5,20 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import CustomAlert from "../../components/CustomAlert";
 import LoginForm from "../../components/LoginForm";
 import NavBar from "../../components/NavBar";
 import Products from "../../components/Products";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+
+const MySwal = withReactContent(Swal)
 
 export default function Perfil({ productos }) {
   const router = useRouter();
   const [isSessionActive, setIsSessionActive] = useState(undefined);
   const [userInfo, setUserInfo] = useState({});
-  const [alert, setAlert] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("failure");
-    
+
   const [loginInfo, setLoginInfo] = useState({
     usuario: "",
     contrasena: ""
@@ -47,7 +47,6 @@ export default function Perfil({ productos }) {
 
   const addToCart = producto => {
     const cart = localStorage.getItem("cart");
-    console.log(cart);
     if (cart) {
       const cartArray = JSON.parse(cart);
       let selectProduct = cartArray.find(item => item.idproducto == producto.idproducto);
@@ -62,13 +61,16 @@ export default function Perfil({ productos }) {
         producto.cantidad = 1;
         cartArray.push(producto);
       }
-      console.log(cartArray);
       localStorage.setItem("cart", JSON.stringify(cartArray));
     } else {
       producto.cantidad = 1;
-      console.log(producto);
       localStorage.setItem("cart", JSON.stringify([producto]));
     }
+
+    MySwal.fire({
+      title: 'Producto agregado al carrito',
+      icon: 'success'
+    })
   }
 
 
@@ -79,48 +81,40 @@ export default function Perfil({ productos }) {
     });
   }
 
-  const resetAlert = () => {
-    setTimeout(() => {
-      setAlert(false);
-      setAlertTitle("");
-      setAlertMessage("");
-      setAlertType("failure");
-    }, 3000);
-  }
-
   const handleSubmit = async e => {
     e.preventDefault();
     try {
       const response = await axios.post("/api/auth/inicio-sesion", loginInfo);
       const { data } = response;
       if (data.ok) {
-        const { data: user } = data;        
+        const { data: user } = data;
         delete user.contrasena;
         setUserInfo(user);
         localStorage.setItem("session", JSON.stringify(user));
-        setAlertTitle("Inicio de sesión");
-        setAlertMessage(data.message);
-        setAlertType("success");
-        setAlert(true);
-        resetAlert();
-        setTimeout(() => {
+        MySwal.fire({
+          title: `Bienvenido/a ${user.persona.nombre}`,
+          icon: 'success',
+          timer: 1500
+        }).then(() => {
           setIsSessionActive(true);
-        }, 3000);
+        })
       } else {
-        setAlertTitle("Error");
-        setAlertMessage(data.message);
-        setAlertType("failure");
-        setAlert(true);
-        resetAlert();
+        MySwal.fire({
+          title: 'Errro al iniciar sesión',
+          text: data.message,
+          icon: 'error',
+          confirmButtonText: 'Volver a intentar'
+        })
       }
     } catch (error) {
       const { response } = error;
       const { data } = response;
-      setAlertTitle("Error");
-      setAlertMessage(data.message);
-      setAlertType("failure");
-      setAlert(true);
-      resetAlert();
+      MySwal.fire({
+        title: 'Error de inicio de sesión',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'Volver a intentar'
+      })
     }
   }
 
@@ -135,15 +129,6 @@ export default function Perfil({ productos }) {
         setSession={setIsSessionActive}
       />
       <main className="">
-        {
-          alert && (
-            <CustomAlert
-              titulo={alertTitle}
-              mensaje={alertMessage}
-              tipo={alertType}
-            />
-          )
-        }
         {!isSessionActive && (
           <div className="sm:h-[calc(100vh-56px)] flex flex-col sm:flex-row sm:items-center overflow-y-auto">
             <div className="w-[90%] mx-auto rounded-3xl p-5 max-w-xs my-3 sm:my-px sm:max-h-52 shadow-sm">
@@ -215,7 +200,7 @@ export default function Perfil({ productos }) {
                   onClick={() => {
                     router.push({
                       pathname: "/perfil/facturas",
-                      query:{
+                      query: {
                         nombreusuario: userInfo?.nombreusuario
                       }
                     },

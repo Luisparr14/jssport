@@ -24,6 +24,7 @@ export default function FormAdminPanel({ onSubmit, onChange, campos, buttonLabel
                   onChange={onChange}
                   value={campo.value}
                   placeholder={campo.label}
+                  disabled={campo.disabled}
                 />
               </div>
             );

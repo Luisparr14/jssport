@@ -1,13 +1,18 @@
+import axios from "axios";
 import { Spinner } from "flowbite-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import AdminSide from "../../../components/admin/AdminSideBar";
-import InfoTablaAdmin from "../../../components/admin/InfoTablaAdmin";
-import ItemsAdminPanel from "../../../components/admin/itemsAdminPanel";
+import AdminSide from "../../../../components/admin/AdminSideBar";
+import InfoTablaAdmin from "../../../../components/admin/InfoTablaAdmin";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
-export default function AdminProductos({ productos }) {
+const MySwal = withReactContent(Swal)
+
+export default function EditarProductos({ productos }) {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(undefined);
+
 
   useEffect(() => {
     const session = localStorage.getItem("admin");
@@ -48,8 +53,40 @@ export default function AdminProductos({ productos }) {
       id: 3,
       label: "Cantidad",
       accessor: "cantidad",
+    },
+    {
+      id: 4,
+      label: "Editar",
+      accessor: "editar",
     }
   ];
+
+  const handleEditar = async (producto) => {
+    try {
+      MySwal.fire({
+        title: '¿Estas seguro?',
+        text: "Estas a punto de editar un producto",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Editar!',
+        cancelButtonText: 'Cancelar'
+      }).then(async (result) => {
+        if (result.value) {
+          router.push(`/admin/productos/editar/${producto.idproducto}`);
+        }
+      })
+    } catch (error) {
+      const { response } = error;
+      const { data } = response;
+      MySwal.fire({
+        title: 'Error',
+        text: data.message,
+        icon: 'error'
+      })
+    }
+  }
 
   return (
     <main className="pt-14 h-[calc(100vh)] flex flex-col overflow-y-auto">
@@ -58,37 +95,12 @@ export default function AdminProductos({ productos }) {
         setIsAdmin={setIsAdmin}
         router={router}
       />
-      <h1 className="text-4xl text-white font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-white">Productos</h1>
-      <div className="flex flex-col sm:flex-row sm:items-center mx-auto rounded-3xl p-5 my-3 sm:my-px shadow-sm bg-white md:w-[90%] overflow-x-auto">
-        <ItemsAdminPanel
-          href="/admin/productos/nuevo"
-          srcImg={"/images/admin/productos/agregar-producto.png"}
-          bgColor={"bg-green-500"}
-          titulo={"Agregar Producto"}
-        />
-        <ItemsAdminPanel
-          href="/admin/productos/eliminar"
-          srcImg={"/images/admin/productos/eliminar-producto.png"}
-          bgColor={"bg-red-500"}
-          titulo={"Eliminar Producto"}
-        />
-        <ItemsAdminPanel
-          href="/admin/productos/editar"
-          srcImg={"/images/admin/productos/editar-producto.png"}
-          bgColor={"bg-blue-500"}
-          titulo={"Editar Producto"}
-        />
-        <ItemsAdminPanel
-          href="/admin/productos/anadir"
-          srcImg={"/images/admin/productos/anadir-cantidad.png"}
-          bgColor={"bg-blue-500"}
-          titulo={"Añadir cantidad a producto"}
-        />
-      </div>
+      <h1 className="text-4xl text-white font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-white">Eliminar Productos</h1>
       <div className="p-3 pt-5 md:px-20 flex-row sm:items-center rounded-3xl my-3 sm:my-px shadow-sm">
         <InfoTablaAdmin
           columnas={columnasProductos}
           items={productos}
+          onEdit={handleEditar}
         />
       </div>
     </main>

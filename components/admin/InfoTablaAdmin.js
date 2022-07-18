@@ -1,6 +1,6 @@
 import { Button, Table } from "flowbite-react";
 
-export default function InfoTablaAdmin({ columnas, items, onDelete = {} }) {
+export default function InfoTablaAdmin({ columnas, items, onDelete = {}, onEdit={} }) {
   return (
     <Table striped={true} className="rounded-md">
       <Table.Head>
@@ -18,7 +18,7 @@ export default function InfoTablaAdmin({ columnas, items, onDelete = {} }) {
                 return (
                   <Table.Cell key={columna.id + "-" + index}>
                     <Button
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      color={"failure"}
                       type="button"
                       onClick={() => onDelete(item)}
                     >
@@ -26,8 +26,19 @@ export default function InfoTablaAdmin({ columnas, items, onDelete = {} }) {
                     </Button>
                   </Table.Cell>
                 );
-              }
-              else {
+              }else if (columna.accessor === "editar") {
+                return (
+                  <Table.Cell key={columna.id + "-" + index}>
+                    <Button
+                      color={"purple"}
+                      type="button"
+                      onClick={() => onEdit(item)}
+                    >
+                      Editar
+                    </Button>
+                  </Table.Cell>
+                );
+              }else {
                 return (
                   <Table.Cell key={item[columna.accessor]+ "-" + index}>
                     {item[columna.accessor]}

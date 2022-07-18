@@ -57,7 +57,7 @@ export default function Facturas() {
         resetAlert();
         setTimeout(() => {
           router.push("/perfil");
-        }, 3000);
+        }, 200);
       }
     } catch (error) {
       const { response } = error;

@@ -20,7 +20,7 @@ export default async function inicioSesion(req, res) {
         })
       }
       if (usuarioDB) {
-        const valido = compararContrasena(contrasena, usuarioDB.contrasena)
+        const valido = await compararContrasena(contrasena, usuarioDB.getDataValue('contrasena'))
         if (valido) {
           return res.json({
             ok: true,
