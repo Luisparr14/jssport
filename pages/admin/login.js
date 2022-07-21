@@ -5,6 +5,7 @@ import LoginFormAdmin from "../../components/admin/loginFormAdmin";
 import AdminSide from "../../components/admin/AdminSideBar";
 import axios from "axios";
 import CustomAlert from "../../components/CustomAlert";
+import Swal from "sweetalert2";
 
 const initialState = {
   correo: "",
@@ -16,25 +17,11 @@ export default function AdminLogin() {
   const [isAdmin, setIsAdmin] = useState(undefined);
   const [adminData, setAdminData] = useState(initialState);
 
-  const [alert, setAlert] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("failure");
-  
-  const resetAlert = () => {
-    setTimeout(() => {
-      setAlert(false);
-      setAlertTitle("");
-      setAlertMessage("");
-      setAlertType("failure");
-    }, 3000);
-  }
 
   useEffect(() => {
     const session = localStorage.getItem("admin");
     if (session) {
       setIsAdmin(true);
-      router.push("/admin/productos");
     } else {
       setIsAdmin(false);
     }
@@ -64,39 +51,30 @@ export default function AdminLogin() {
       const { data } = response;
       if (data.ok) {
         const {data: admin} = data;
+        console.log(admin);
         localStorage.setItem("admin", JSON.stringify(admin));
-        setAlertTitle("Inicio de sesión");
-        setAlertMessage(data.message);
-        setAlertType("success");
-        setAlert(true);
-        resetAlert();
-        setTimeout(() => {
-          setIsAdmin(true);
-          router.push("/admin/productos");
-        },200);
+        Swal.fire({
+          title: `${data.message}`,
+          text: `Bienvenido`,
+          icon: 'success'
+        })
+        router.push("/admin/productos");        
       }
     } catch (error) {
       console.log(error);
       const { response } = error;
       const { data } = response;
-      setAlertTitle("Error");
-      setAlertMessage(data.message);
-      setAlertType("failure");
-      setAlert(true);
-      resetAlert();
+      Swal.fire({
+        title: 'Error',
+        text: data.message,
+        icon: 'error'
+      })
     }
   }
 
 
   return (
     <main className="h-[calc(100vh)] flex flex-col sm:items-center justify-center overflow-y-auto">
-      {alert && (
-        <CustomAlert
-          titulo={alertTitle}
-          mensaje={alertMessage}
-          tipo={alertType}
-        />
-      )}
       <AdminSide
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}

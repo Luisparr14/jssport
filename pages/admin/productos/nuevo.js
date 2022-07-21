@@ -26,7 +26,6 @@ export default function AgregarProducto() {
   useEffect(() => {
     const session = localStorage.getItem("admin");
     if (!session) {
-      router.push("/admin/login");
       setIsAdmin(false);
     } else {
       setIsAdmin(true);
@@ -65,7 +64,7 @@ export default function AgregarProducto() {
         }).then(async (result) => {
           if (result.value) {
             router.push("/admin/productos");
-          }else{
+          } else {
             setInfoProducto(initialState);
           }
         })
@@ -128,18 +127,22 @@ export default function AgregarProducto() {
           setIsAdmin={setIsAdmin}
           router={router}
         />
-        <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
-          <FormAdminPanel
-            formTitle="Agregar producto"
-            buttonLabel={"Agregar producto"}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            campos={campos}
-          />
-          <p className="text-center text-gray-500 text-xs">
-            JSSPORT
-          </p>
-        </div>
+        {isAdmin && (
+          <>
+            <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
+              <FormAdminPanel
+                formTitle="Agregar producto"
+                buttonLabel={"Agregar producto"}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                campos={campos}
+              />
+              <p className="text-center text-gray-500 text-xs">
+                JSSPORT
+              </p>
+            </div>
+          </>
+        )}
       </main>
     </>
   )

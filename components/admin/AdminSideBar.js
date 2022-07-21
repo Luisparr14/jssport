@@ -19,8 +19,11 @@ export default function AdminSide({ isAdmin, setIsAdmin,  router }) {
       setIsAdmin(true);
     } else {
       setIsAdmin(false);
+      if (router.pathname !== "/admin/login") {
+        router.push("/admin/login");
+      }
     }
-  }, [setIsAdmin]);
+  }, [setIsAdmin, router]);
 
   if (isAdmin == undefined) {
     return (

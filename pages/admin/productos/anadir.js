@@ -28,7 +28,6 @@ export default function AñadirProducto() {
   useEffect(() => {
     const session = localStorage.getItem("admin");
     if (!session) {
-      router.push("/admin/login");
       setIsAdmin(false);
     } else {
       setIsAdmin(true);
@@ -74,11 +73,11 @@ export default function AñadirProducto() {
       const { response } = error;
       const { data } = response;
       MySwal.fire({
-          title: 'Error',
-          text: data.message,
-          icon: 'error',
-          confirmButtonText: 'Entendido'
-      })      
+        title: 'Error',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'Entendido'
+      })
     }
   }
 
@@ -121,18 +120,22 @@ export default function AñadirProducto() {
           setIsAdmin={setIsAdmin}
           router={router}
         />
-        <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
-          <FormAdminPanel
-            formTitle="Sumar cantidad"
-            buttonLabel={"Añadir producto"}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            campos={campos}
-          />
-          <p className="text-center text-gray-500 text-xs">
-            JSSPORT
-          </p>
-        </div>
+        {isAdmin && (
+          <>
+            <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
+              <FormAdminPanel
+                formTitle="Sumar cantidad"
+                buttonLabel={"Añadir producto"}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                campos={campos}
+              />
+              <p className="text-center text-gray-500 text-xs">
+                JSSPORT
+              </p>
+            </div>
+          </>
+        )}
       </main>
     </>
   )

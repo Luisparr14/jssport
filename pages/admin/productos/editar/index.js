@@ -95,14 +95,18 @@ export default function EditarProductos({ productos }) {
         setIsAdmin={setIsAdmin}
         router={router}
       />
-      <h1 className="text-4xl text-white font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-white">Eliminar Productos</h1>
-      <div className="p-3 pt-5 md:px-20 flex-row sm:items-center rounded-3xl my-3 sm:my-px shadow-sm">
-        <InfoTablaAdmin
-          columnas={columnasProductos}
-          items={productos}
-          onEdit={handleEditar}
-        />
-      </div>
+      {isAdmin && (
+        <>
+          <h1 className="text-4xl text-white font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-white">Eliminar Productos</h1>
+          <div className="p-3 pt-5 md:px-20 flex-row sm:items-center rounded-3xl my-3 sm:my-px shadow-sm">
+            <InfoTablaAdmin
+              columnas={columnasProductos}
+              items={productos}
+              onEdit={handleEditar}
+            />
+          </div>
+        </>
+      )}
     </main>
   );
 }

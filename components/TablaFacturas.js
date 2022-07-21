@@ -38,8 +38,7 @@ const columnas = [
   }
 ]
 
-export default function TablaFacturas({ pagos, onDelete = {} }) {
-  console.log(pagos)
+export default function TablaFacturas({ pagos}) {
   return (
     <Table striped={true} className="rounded-md">
       <Table.Head>
@@ -55,12 +54,32 @@ export default function TablaFacturas({ pagos, onDelete = {} }) {
             pago.facturas.map((factura, index) => (
               <Table.Row key={factura?.idfactura}>
                 <Table.Cell>{pago?.idpago}</Table.Cell>
-                <Table.Cell>{pago?.generado}</Table.Cell>
-                <Table.Cell>{factura?.producto?.nombre}</Table.Cell>
-                <Table.Cell>{factura?.cantidad}</Table.Cell>
-                <Table.Cell>{factura?.producto?.precio}</Table.Cell>
                 <Table.Cell>
-                  {factura?.cantidad * factura?.producto?.precio}
+                {new Date(pago?.generado).toLocaleDateString()}
+                </Table.Cell>
+                <Table.Cell>
+                  {factura?.producto?.nombre ?? (
+                    <span className="text-red-500">
+                      Producto retirado
+                    </span>
+                  )}
+                </Table.Cell>
+                <Table.Cell>{factura?.cantidad}</Table.Cell>
+                <Table.Cell>
+                  {factura?.producto?.precio ?? (
+                    <span className="text-red-500">
+                      Producto retirado
+                    </span>
+                  )}
+                </Table.Cell>
+                <Table.Cell>
+                  {factura?.producto ? (
+                    factura?.cantidad * factura?.producto?.precio
+                  ) : (
+                    <span className="text-red-500">
+                      Producto retirado
+                    </span>
+                  )}
                 </Table.Cell>
                 <Table.Cell>
                   {pago?.estado ? (

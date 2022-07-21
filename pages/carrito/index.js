@@ -38,6 +38,23 @@ export default function Carrito() {
     );
   }
 
+  const handleChange = (e) => {
+    setUserInfo({
+      nombreusuario: userInfo.nombreusuario,
+      idpersona: userInfo.idpersona,
+      plan: userInfo.plan,
+      persona: {
+        nombre: userInfo.persona.nombre,
+        primer_apellido: userInfo.persona.apellido,
+        segundo_apellido: userInfo.persona.apellido,
+        celular: e.target.value,
+        correo: userInfo.persona.correo,
+        peso: userInfo.persona.peso,
+        altura: userInfo.persona.altura,
+      }
+    });
+  }
+
   const eliminarProducto = id => {
     let productos = JSON.parse(localStorage.getItem("cart"));
     let index = productos.findIndex(item => item.id == id);
@@ -64,8 +81,19 @@ export default function Carrito() {
     })
   }
 
-  const comprar = async () => {
+  const comprar = async (e) => {
+    e.preventDefault();
     try {
+      const regexPhone = /^[0-9]{10}$/;
+      if (!regexPhone.test(userInfo.persona.celular)) {
+        MySwal.fire({
+          title: 'Error',
+          text: 'El celular debe tener 10 dígitos',
+          icon: 'error'
+        })
+        return;
+      }
+
       const response = await axios.post("/api/compras/pagar", {
         productos: productos,
         usuario: userInfo.nombreusuario,
@@ -128,20 +156,30 @@ export default function Carrito() {
           color="failure"
           style={{
             margin: "1rem 0",
-            width: "200px"
+            width: "250px"
           }}
         >
           Vaciar carrito
         </Button>
-        <Button
-          onClick={comprar}
-          style={{
-            margin: "1rem 0",
-            width: "200px"
-          }}
-        >
-          Comprar
-        </Button>
+        <form onSubmit={comprar}>
+          <div className="w-[250px] bg-gray-900 rounded-lg p-2 my-2">
+            <div className="mb-4">
+              <label className="block text-white text-sm font-semibold mb-2" htmlFor="celular">
+                Numero de Nequi que hará el pago
+              </label>
+              <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="celular" type="text" placeholder="Celular" name="celular" value={userInfo.persona.celular} onChange={handleChange} />
+            </div>
+            <Button
+              type="submit"
+              style={{
+                margin: "1rem 0",
+                width: "100%"
+              }}
+            >
+              Comprar
+            </Button>
+          </div>
+        </form>
         <Button
           onClick={() => {
             router.push("/perfil");

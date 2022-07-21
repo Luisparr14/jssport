@@ -76,7 +76,7 @@ Usuario.belongsTo(Pago, {
 Producto.hasMany(Factura, {
   foreignKey: "idproducto",
   as: "ProductosFactura",
-  onDelete: "CASCADE",
+  onDelete: "SET NULL",
   onUpdate: "CASCADE"
 })
 

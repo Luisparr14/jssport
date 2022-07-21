@@ -16,7 +16,7 @@ export default function AdminProductos({ productos }) {
     } else {
       setIsAdmin(false);
     }
-  }, [isAdmin]);
+  }, [isAdmin, router]);
 
   if (isAdmin == undefined) {
     return (
@@ -58,39 +58,42 @@ export default function AdminProductos({ productos }) {
         setIsAdmin={setIsAdmin}
         router={router}
       />
-      <h1 className="text-4xl text-white font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-white">Productos</h1>
-      <div className="flex flex-col sm:flex-row sm:items-center mx-auto rounded-3xl p-5 my-3 sm:my-px shadow-sm bg-white md:w-[90%] overflow-x-auto">
-        <ItemsAdminPanel
-          href="/admin/productos/nuevo"
-          srcImg={"/images/admin/productos/agregar-producto.png"}
-          bgColor={"bg-green-500"}
-          titulo={"Agregar Producto"}
-        />
-        <ItemsAdminPanel
-          href="/admin/productos/eliminar"
-          srcImg={"/images/admin/productos/eliminar-producto.png"}
-          bgColor={"bg-red-500"}
-          titulo={"Eliminar Producto"}
-        />
-        <ItemsAdminPanel
-          href="/admin/productos/editar"
-          srcImg={"/images/admin/productos/editar-producto.png"}
-          bgColor={"bg-blue-500"}
-          titulo={"Editar Producto"}
-        />
-        <ItemsAdminPanel
-          href="/admin/productos/anadir"
-          srcImg={"/images/admin/productos/anadir-cantidad.png"}
-          bgColor={"bg-blue-500"}
-          titulo={"Añadir cantidad a producto"}
-        />
-      </div>
-      <div className="p-3 pt-5 md:px-20 flex-row sm:items-center rounded-3xl my-3 sm:my-px shadow-sm">
-        <InfoTablaAdmin
-          columnas={columnasProductos}
-          items={productos}
-        />
-      </div>
+
+      {isAdmin && (<>
+        <h1 className="text-4xl text-white font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-white">Productos</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center mx-auto rounded-3xl p-5 my-3 sm:my-px shadow-sm bg-white md:w-[90%] overflow-x-auto">
+          <ItemsAdminPanel
+            href="/admin/productos/nuevo"
+            srcImg={"/images/admin/productos/agregar-producto.png"}
+            bgColor={"bg-green-500"}
+            titulo={"Agregar Producto"}
+          />
+          <ItemsAdminPanel
+            href="/admin/productos/eliminar"
+            srcImg={"/images/admin/productos/eliminar-producto.png"}
+            bgColor={"bg-red-500"}
+            titulo={"Eliminar Producto"}
+          />
+          <ItemsAdminPanel
+            href="/admin/productos/editar"
+            srcImg={"/images/admin/productos/editar-producto.png"}
+            bgColor={"bg-blue-500"}
+            titulo={"Editar Producto"}
+          />
+          <ItemsAdminPanel
+            href="/admin/productos/anadir"
+            srcImg={"/images/admin/productos/anadir-cantidad.png"}
+            bgColor={"bg-blue-500"}
+            titulo={"Añadir cantidad a producto"}
+          />
+        </div>
+        <div className="p-3 pt-5 md:px-20 flex-row sm:items-center rounded-3xl my-3 sm:my-px shadow-sm">
+          <InfoTablaAdmin
+            columnas={columnasProductos}
+            items={productos}
+          />
+        </div>
+      </>)}
     </main>
   );
 }

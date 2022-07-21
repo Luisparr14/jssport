@@ -126,18 +126,20 @@ export default function EditarProductoEspecifico({ producto }) {
           setIsAdmin={setIsAdmin}
           router={router}
         />
-        <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
-          <FormAdminPanel
-            formTitle="Editar producto"
-            buttonLabel={"Editar"}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            campos={campos}
-          />
-          <p className="text-center text-gray-500 text-xs">
-            JSSPORT
-          </p>
-        </div>
+        {isAdmin && (
+          <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
+            <FormAdminPanel
+              formTitle="Editar producto"
+              buttonLabel={"Editar"}
+              onChange={handleChange}
+              onSubmit={handleSubmit}
+              campos={campos}
+            />
+            <p className="text-center text-gray-500 text-xs">
+              JSSPORT
+            </p>
+          </div>
+        )}
       </main>
     </>
   )
@@ -160,7 +162,7 @@ EditarProductoEspecifico.getInitialProps = async ({ query }) => {
     return {
       producto
     }
-  } catch (error) {    
+  } catch (error) {
     return {
       producto
     }

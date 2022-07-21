@@ -10,7 +10,7 @@ const Factura = sequelize.define('facturas', {
   },
   idproducto: {
     type: DataTypes.INTEGER(12),
-    allowNull: false    
+    allowNull: true
   },
   cantidad: {
     type: DataTypes.INTEGER(9),

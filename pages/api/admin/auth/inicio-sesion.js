@@ -10,9 +10,9 @@ export default async function inicioSesion(req, res) {
         }
       })
       if (!adminDB) {
-        return res.status(400).json({
+        return res.status(403).json({
           ok: false,
-          message: 'Admin incorrecto'
+          message: 'Acceso denegado',
         })
       }
       if (adminDB) {
@@ -20,13 +20,13 @@ export default async function inicioSesion(req, res) {
         if (valido) {
           return res.status(200).json({
             ok: true,
-            message: 'Admin correcto',
+            message: 'Acceso permitido',
             data: adminDB,
           })
         } else {
           return res.status(403).json({
             ok: false,
-            message: 'Contraseña incorrecta'
+            message: 'Acceso denegado'
           })
         }
       }
