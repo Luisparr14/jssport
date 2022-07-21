@@ -96,8 +96,7 @@ Pago.belongsToMany(Factura, { through: DetalleFactura });
 ; (async () => {
   try {
     await sequelize.sync({
-      force: false,
-      // alter: true,
+      force: false      
     })
     const admin = await Admin.findOne({
       where: {
@@ -113,9 +112,10 @@ Pago.belongsToMany(Factura, { through: DetalleFactura });
     }
     console.log("Sincronizado");
   } catch (error) {
-    console.log({
+    console.error({
       "error": "Error menor con mock iniciales",
       "sincronizado": "si... pero con error",
+      "error_message": error
     });
   }
 })();

@@ -22,7 +22,8 @@ export default async function test(req, res) {
     include: [{
       model: Persona,
       attributes: ['nombre', 'celular', 'correo']
-    }]
+    }
+  ]
   })
 
   return res.json({

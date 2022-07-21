@@ -8,7 +8,7 @@ const Pago = sequelize.define('pagos', {
     primaryKey: true,
   },
   nombreusuario: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     allowNull: true,
   },
   generado: {

@@ -4,17 +4,17 @@ import sequelize from '../config/database';
 const Planes = sequelize.define('planes', {
 
   idplan: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER(12),
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
   },
   nombre: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     allowNull: false,
   },
   precio: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.FLOAT(9),
     allowNull: false,
   },
   descripcion: {

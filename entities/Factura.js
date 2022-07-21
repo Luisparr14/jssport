@@ -3,17 +3,17 @@ import sequelize from '../config/database';
 
 const Factura = sequelize.define('facturas', {
   idfactura: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER(12),
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
   },
   idproducto: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER(12),
     allowNull: false    
   },
   cantidad: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER(9),
     allowNull: false,
   },
   fecha: {

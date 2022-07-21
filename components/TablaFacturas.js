@@ -38,7 +38,8 @@ const columnas = [
   }
 ]
 
-export default function TablaFacturas({ facturas, onDelete = {} }) {
+export default function TablaFacturas({ pagos, onDelete = {} }) {
+  console.log(pagos)
   return (
     <Table striped={true} className="rounded-md">
       <Table.Head>
@@ -49,13 +50,27 @@ export default function TablaFacturas({ facturas, onDelete = {} }) {
         ))}
       </Table.Head>
       <Table.Body className="divide-y ">
-      {
-        facturas.map((factura, index) => (
-          <Table.Row key={factura.id} className="bg-white dark:border-gray-700 dark:bg-gray-800 ">
-            
-          </Table.Row>
-        ))
-      }     
+        {
+          pagos.map((pago) => (
+            pago.facturas.map((factura, index) => (
+              <Table.Row key={factura?.idfactura}>
+                <Table.Cell>{pago?.idpago}</Table.Cell>
+                <Table.Cell>{pago?.generado}</Table.Cell>
+                <Table.Cell>{factura?.producto?.nombre}</Table.Cell>
+                <Table.Cell>{factura?.cantidad}</Table.Cell>
+                <Table.Cell>{factura?.producto?.precio}</Table.Cell>
+                <Table.Cell>
+                  {factura?.cantidad * factura?.producto?.precio}
+                </Table.Cell>
+                <Table.Cell>
+                  {pago?.estado ? (
+                    <span className="text-green-500">Pagado</span>
+                  ) : (<span className="text-red-500">Pendiente</span>)}
+                </Table.Cell>
+              </Table.Row>
+            ))
+          ))
+        }
       </Table.Body>
     </Table>
   )

@@ -3,20 +3,20 @@ import sequelize from '../config/database';
 
 const Producto = sequelize.define('productos', {
   idproducto: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER(12),
     allowNull: false,
     primaryKey: true
   },
   nombre: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(50),
     allowNull: false
   },
   precio: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.FLOAT(9),
     allowNull: false
   },
   cantidad: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER(9),
     allowNull: false,
     defaultValue: 0
   }

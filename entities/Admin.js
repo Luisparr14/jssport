@@ -3,13 +3,13 @@ import sequelize from '../config/database';
 
 const Admin = sequelize.define('admin', {
   idadmin:{
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER(12),
     allowNull: false,
     primaryKey: true,
     autoIncrement: true    
   },
   correo:{
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(100),
     allowNull: false,
     unique: true,
     validate: {
@@ -17,7 +17,7 @@ const Admin = sequelize.define('admin', {
     }
   },
   contrasena:{
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(230),
     allowNull: false
   }
 },{

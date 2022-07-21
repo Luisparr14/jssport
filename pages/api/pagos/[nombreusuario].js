@@ -1,20 +1,8 @@
-import { Factura, Pago, Usuario } from "../../../entities"
+import { Factura, Pago, Producto, Usuario } from "../../../entities"
 
 export default async function test(req, res) {
   if (req.method === 'GET') {
-    const facturas = {
-      referencia: "",
-      estado: false,
-      fecha: '',
-      productos: [
-        {
-          nombre: '',
-          cantidad: 0,
-          precio: 0,
-          total: 0
-        }
-      ],
-    }
+  
     try {
       const { nombreusuario } = req.query
       const usuario = await Usuario.findOne({
@@ -33,6 +21,11 @@ export default async function test(req, res) {
         include: [
           {
             model: Factura,
+            include: [
+              {
+                model: Producto
+              }
+            ]
           },
           {
             model: Usuario,
@@ -51,14 +44,11 @@ export default async function test(req, res) {
         })
       }
 
-
-      const { facturas } = pagos
-
-
       return res.status(200).json({
         ok: true,
         message: 'Pagos recuperados',
-        data: pagos
+        data: pagos,
+        usuario: usuario.nombreusuario
       })
 
     } catch (error) {

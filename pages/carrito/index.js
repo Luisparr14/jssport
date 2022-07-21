@@ -15,11 +15,6 @@ export default function Carrito() {
   const [productos, setProductos] = useState([]);
   const [userInfo, setUserInfo] = useState({});
 
-  const [alert, setAlert] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("failure");
-
   useEffect(() => {
     const session = localStorage.getItem("session");
     if (session) {

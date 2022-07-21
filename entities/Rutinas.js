@@ -3,13 +3,13 @@ import sequelize from '../config/database';
 
 const Rutinas = sequelize.define('rutinas', {
   idrutina: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER(12),
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
   },
   enfoque: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     allowNull: false,
   },
   descripcion: {

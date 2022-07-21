@@ -3,7 +3,7 @@ import sequelize from '../config/database';
 
 const Entrenadores = sequelize.define('entrenadores', {
   cedula: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(14),
     allowNull: false,
     primaryKey: true
   },

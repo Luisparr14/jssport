@@ -170,7 +170,7 @@ export default function Perfil({ productos }) {
               {
                 productos.map(producto => (
                   <Products
-                    key={producto.id}
+                    key={producto.idproducto}
                     titulo={producto.nombre}
                     precio={producto.precio}
                     cantidad={producto.cantidad}
@@ -198,14 +198,7 @@ export default function Perfil({ productos }) {
               <div className="my-3 flex flex-col items-center w-full">
                 <Button
                   onClick={() => {
-                    router.push({
-                      pathname: "/perfil/facturas",
-                      query: {
-                        nombreusuario: userInfo?.nombreusuario
-                      }
-                    },
-                      "/facturas",
-                    );
+                    router.push(`/perfil/facturas/${userInfo?.nombreusuario}`);
                   }}
                 >
                   Ver facturas
