@@ -1,6 +1,6 @@
 import { Factura, Pago, Producto, Usuario } from "../../../entities"
 
-export default async function test(req, res) {
+export default async function pagos(req, res) {
   if (req.method === 'GET') {
   
     try {
