@@ -19,7 +19,7 @@ const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
     }).catch(err => {
       console.log('Error al conectar a la base de datos: ', err)
     }
-  )
+  )  
 })()
 
 export default sequelize;

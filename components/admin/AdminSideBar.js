@@ -76,7 +76,7 @@ export default function AdminSide({ isAdmin, setIsAdmin,  router }) {
                 >
                   Productos
                 </Sidebar.Item>
-                <Sidebar.Item
+                {/* <Sidebar.Item
                   href="#"
                   icon={HiViewBoards}
                   labelColor="alternative"
@@ -107,7 +107,7 @@ export default function AdminSide({ isAdmin, setIsAdmin,  router }) {
                   }}
                 >
                   Usuarios
-                </Sidebar.Item>
+                </Sidebar.Item> */}
                 {isAdmin && (<Sidebar.Item
                   icon={HiArrowSmRight}
                   href="#"
