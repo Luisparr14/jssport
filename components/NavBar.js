@@ -142,7 +142,7 @@ export default function NavBar({ session, setSession }) {
         </div>
       </div>
 
-      <div ref={menuRef} className="hidden mobile-menu bg-yellow-200 h-[100vh] z-[99999] relative md:hidden">
+      <div ref={menuRef} className="hidden mobile-menu bg-yellow-200 h-[100vh] z-[10] relative md:hidden">
         <ul className="">
           <li className="">
             <Link href="/">

@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 import CustomAlert from "../../components/CustomAlert";
 import NavBar from "../../components/NavBar";
 import RegisterForm from "../../components/RegisterForm";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const MySwal = withReactContent(Swal)
+
 const initialState = {
   nombre: "Andrea",
   primerapellido: "Barrios",
@@ -16,14 +20,10 @@ const initialState = {
   contrasena: "123456",
   contrasenaconfirmacion: "123456"
 }
+
 export default function Registro() {
   const [sesion, setSesion] = useState(undefined);
   const [registroInfo, setRegistroInfo] = useState(initialState);
-
-  const [alert, setAlert] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("failure");
 
   const router = useRouter();
   useEffect(() => {
@@ -36,15 +36,6 @@ export default function Registro() {
   }, [router]);
 
 
-  const resetAlert = () => {
-    setTimeout(() => {
-      setAlert(false);
-      setAlertTitle("");
-      setAlertMessage("");
-      setAlertType("failure");                
-    }, 3000);
-  }
-
   const handleChange = e => {
     setRegistroInfo({
       ...registroInfo,
@@ -54,27 +45,27 @@ export default function Registro() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    try {      
+    try {
       const response = await axios.post("/api/auth/registro", registroInfo);
       const { data } = response;
       if (data.ok) {
-        setAlertTitle("Registro");
-        setAlertMessage(data.message);
-        setAlertType("success");
-        setAlert(true);
-        resetAlert();
-        setTimeout(() => {
+        MySwal.fire({
+          title: 'Registro exitoso',
+          icon: 'success',
+          timer: 1500
+        }).then(() => {
           router.push("/perfil");
-        }, 200);
+        })
       }
     } catch (error) {
       const { response } = error;
       const { data } = response;
-      setAlertTitle("Error");
-      setAlertMessage(data.message);
-      setAlertType("failure");
-      setAlert(true);
-      resetAlert();      
+      MySwal.fire({
+        title: 'Error de registro',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'Volver a intentar'
+      })
     }
   }
 
@@ -99,13 +90,6 @@ export default function Registro() {
         setSession={setSesion}
       />
       <main className="relative h-[calc(100vh-88px)] sm:h-[calc(100vh-56px)] flex flex-col overflow-auto py-4">
-      {alert && (
-        <CustomAlert
-          titulo={alertTitle}
-          mensaje={alertMessage}
-          tipo={alertType}
-        />
-      )}
         <div className="w-[90%] mx-auto rounded-3xl max-w-xs my-3 sm:my-px shadow-sm bg-white ">
           <RegisterForm
             registroInfo={registroInfo}
