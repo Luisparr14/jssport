@@ -6,6 +6,7 @@ import AdminSide from "../../../components/admin/AdminSideBar";
 import InfoTablaAdmin from "../../../components/admin/InfoTablaAdmin";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import Head from "next/head";
 
 const MySwal = withReactContent(Swal)
 
@@ -103,6 +104,9 @@ export default function EliminarProductos({ productos }) {
 
   return (
     <main className="pt-14 h-[calc(100vh)] flex flex-col overflow-y-auto">
+      <Head>
+        <title>Eliminar productos</title>
+      </Head>
       <AdminSide
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}

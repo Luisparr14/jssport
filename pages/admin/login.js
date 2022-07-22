@@ -6,6 +6,7 @@ import AdminSide from "../../components/admin/AdminSideBar";
 import axios from "axios";
 import CustomAlert from "../../components/CustomAlert";
 import Swal from "sweetalert2";
+import Head from "next/head";
 
 const initialState = {
   correo: "",
@@ -75,6 +76,9 @@ export default function AdminLogin() {
 
   return (
     <main className="h-[calc(100vh)] flex flex-col sm:items-center justify-center overflow-y-auto">
+      <Head>
+        <title>Ingreso Admin</title>
+      </Head>
       <AdminSide
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}

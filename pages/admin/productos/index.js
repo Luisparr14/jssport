@@ -1,4 +1,5 @@
 import { Spinner } from "flowbite-react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AdminSide from "../../../components/admin/AdminSideBar";
@@ -50,9 +51,11 @@ export default function AdminProductos({ productos }) {
       accessor: "cantidad",
     }
   ];
-
   return (
     <main className="pt-14 h-[calc(100vh)] flex flex-col overflow-y-auto">
+      <Head>
+        <title>Productos</title>
+      </Head>
       <AdminSide
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}

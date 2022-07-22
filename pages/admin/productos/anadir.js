@@ -115,6 +115,9 @@ export default function AñadirProducto() {
         <meta name="description" content="Registro" />
       </Head>
       <main className="relative h-[calc(100vh)] flex flex-col justify-center overflow-auto py-4">
+        <Head>
+          <title>Añadir productos</title>
+        </Head>
         <AdminSide
           isAdmin={isAdmin}
           setIsAdmin={setIsAdmin}

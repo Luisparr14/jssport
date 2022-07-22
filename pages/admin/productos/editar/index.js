@@ -6,6 +6,7 @@ import AdminSide from "../../../../components/admin/AdminSideBar";
 import InfoTablaAdmin from "../../../../components/admin/InfoTablaAdmin";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import Head from "next/head";
 
 const MySwal = withReactContent(Swal)
 
@@ -90,6 +91,9 @@ export default function EditarProductos({ productos }) {
 
   return (
     <main className="pt-14 h-[calc(100vh)] flex flex-col overflow-y-auto">
+      <Head>
+        <title>Editar Productos</title>
+      </Head>
       <AdminSide
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}
@@ -97,7 +101,7 @@ export default function EditarProductos({ productos }) {
       />
       {isAdmin && (
         <>
-          <h1 className="text-4xl text-white font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-white">Eliminar Productos</h1>
+          <h1 className="text-4xl text-white font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-white">Editar Productos</h1>
           <div className="p-3 pt-5 md:px-20 flex-row sm:items-center rounded-3xl my-3 sm:my-px shadow-sm">
             <InfoTablaAdmin
               columnas={columnasProductos}

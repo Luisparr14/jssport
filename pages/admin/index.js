@@ -1,9 +1,10 @@
 import { Spinner } from "flowbite-react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AdminSide from "../../components/admin/AdminSideBar";
 export default function Admin() {
-  
+
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(undefined);
 
@@ -26,12 +27,13 @@ export default function Admin() {
       </main>
     );
   }
-
   return (
-    <AdminSide
-      isAdmin={isAdmin}
-      router={router}
-      setIsAdmin={setIsAdmin}
-    />
+    <>
+      <AdminSide
+        isAdmin={isAdmin}
+        router={router}
+        setIsAdmin={setIsAdmin}
+      />
+    </>
   )
 }
