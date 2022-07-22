@@ -1,10 +1,14 @@
 import { Producto } from "../../../../entities"
 
+// Metodo para agregar cantidad de un producto
 export default async function sumar(req, res) {
   if (req.method === 'POST') {
     try {
+      // Recibe el id del producto y la cantidad a sumar
       const { idproducto } = req.query
       const { cantidad } = req.body      
+      
+      // SI falta algun dato se muestra un error
       if (!cantidad) {
         return res.status(400).json({
           ok: false,
@@ -12,6 +16,7 @@ export default async function sumar(req, res) {
         })
       }
 
+      // SI la cantidad es menor a 0 se muestra un error
       if (cantidad <= 0) {
         return res.status(400).json({
           ok: false,
@@ -19,8 +24,10 @@ export default async function sumar(req, res) {
         })
       }
 
+      // Busca el producto en la base de datos
       const findProducto = await Producto.findByPk(idproducto)
 
+      // Si el producto no existe se muestra un error
       if (!findProducto) {
         return res.status(400).json({
           ok: false,
@@ -28,6 +35,7 @@ export default async function sumar(req, res) {
         })
       }
 
+      // Suma la cantidad al producto
       await Producto.update({
         cantidad: parseInt(findProducto.cantidad) + parseInt(cantidad)
       }, {
@@ -36,8 +44,10 @@ export default async function sumar(req, res) {
         }
       })
 
+      // Se busca el producto en la base de datos
       const producto = await Producto.findByPk(idproducto)
 
+      // Se devuelve el producto actualizado
       return res.status(200).json({
         ok: true,
         message: 'Producto actualizado',

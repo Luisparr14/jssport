@@ -1,3 +1,6 @@
+// Se impoorta la conexion a la BD
+import sequelize from "../config/database";
+
 import Persona from "./Persona";
 import Usuario from "./Usuario";
 import Entrenadores from "./Entrenadores";
@@ -5,12 +8,13 @@ import Planes from "./Planes";
 import Rutinas from "./Rutinas";
 import PlanRutina from "./Plan_Rutina";
 import Dicta from "./Dicta";
-import sequelize from "../config/database";
 import Producto from "./Producto";
 import DetalleFactura from "./DetalleFactura";
 import Factura from "./Factura";
 import Pago from "./Pago";
 import Admin from "./Admin";
+
+// Se importan las clases que se utilizan en el modelo y se hacen las relaciones
 
 Planes.belongsToMany(Rutinas, { through: PlanRutina });
 Rutinas.belongsToMany(Planes, { through: PlanRutina });
