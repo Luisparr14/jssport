@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AdminSide from "../../components/admin/AdminSideBar";
+//Index
 export default function Admin() {
 
   const router = useRouter();
